@@ -19,7 +19,13 @@ struct ProgressiveOverloadTrackerApp: App {
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
         } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+            // Delete the existing store and recreate it
+            try? FileManager.default.removeItem(at: modelConfiguration.url)
+            do {
+                return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            } catch {
+                fatalError("Could not create ModelContainer: \(error)")
+            }
         }
     }()
 

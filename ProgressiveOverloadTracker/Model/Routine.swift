@@ -10,17 +10,13 @@ import Foundation
 
 @Model
 final class Routine {
-    var routineID: String
+    var id: UUID
     var routineName: String
     var exercises: [Exercise]
     
-    init(routineID: String = UUID().uuidString, routineName: String, exercises: [Exercise]) {
-        self.routineID = routineID
+    init(id: UUID = UUID(), routineName: String = "", exercises: [Exercise] = []) {
+        self.id = id
         self.routineName = routineName
         self.exercises = exercises
     }
-}
-
-extension Routine {
-    static var emptyRoutine = Routine(routineName: "", exercises: [])
 }

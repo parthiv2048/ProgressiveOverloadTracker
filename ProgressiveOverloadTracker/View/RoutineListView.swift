@@ -14,6 +14,7 @@ struct RoutineListView: View {
     
     @Environment(\.modelContext) private var modelContext
     @Query private var routineList: [Routine]
+    @State private var newRoutine: Routine?
     
     // MARK: - No Routines View
     
@@ -28,11 +29,13 @@ struct RoutineListView: View {
     var routinesListView: some View {
         List {
             ForEach(routineList) { routine in
-                HStack {
-                    Text(routine.routineName)
-                        .fontWeight(.semibold)
-                    Spacer()
-                    Text("\(routine.exercises.count) exercises")
+                NavigationLink(destination: EditRoutineView(routine: routine)) {
+                    HStack {
+                        Text(routine.routineName)
+                            .fontWeight(.semibold)
+                        Spacer()
+                        Text("\(routine.exercises.count) exercises")
+                    }
                 }
             }
             .onDelete(perform: deleteRoutines)
@@ -52,10 +55,17 @@ struct RoutineListView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: AddRoutineView()) {
+                    Button {
+                        let routine = Routine()
+                        modelContext.insert(routine)
+                        newRoutine = routine
+                    } label: {
                         Image(systemName: "plus")
                     }
                 }
+            }
+            .navigationDestination(item: $newRoutine) { routine in
+                EditRoutineView(routine: routine)
             }
         }
     }
