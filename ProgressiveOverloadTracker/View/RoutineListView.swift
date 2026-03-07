@@ -28,8 +28,14 @@ struct RoutineListView: View {
     var routinesListView: some View {
         List {
             ForEach(routineList) { routine in
-                Text(routine.routineName)
+                HStack {
+                    Text(routine.routineName)
+                        .fontWeight(.semibold)
+                    Spacer()
+                    Text("\(routine.exercises.count) exercises")
+                }
             }
+            .onDelete(perform: deleteRoutines)
         }
     }
     
@@ -51,6 +57,14 @@ struct RoutineListView: View {
                     }
                 }
             }
+        }
+    }
+    
+    // MARK: - Delete Routines Method
+    
+    private func deleteRoutines(at offsets: IndexSet) {
+        for index in offsets {
+            modelContext.delete(routineList[index])
         }
     }
 }
