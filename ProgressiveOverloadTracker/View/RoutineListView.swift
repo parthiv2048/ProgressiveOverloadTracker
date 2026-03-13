@@ -122,9 +122,13 @@ struct RoutineListView: View {
                         output += "     Sets: \(sets)\n"
                     }
                     
-                    let minReps = exercise.targetRepRangeMin.map { "\($0)" } ?? "-"
-                    let maxReps = exercise.targetRepRangeMax.map { "\($0)" } ?? "-"
-                    output += "     Reps: \(minReps)–\(maxReps)\n"
+                    if let minReps = exercise.targetRepRangeMin {
+                        output += "     Reps: \(minReps)"
+                    }
+                    
+                    if let maxReps = exercise.targetRepRangeMax {
+                        output += "–\(maxReps)\n"
+                    }
                 }
             }
             output += "\n"
