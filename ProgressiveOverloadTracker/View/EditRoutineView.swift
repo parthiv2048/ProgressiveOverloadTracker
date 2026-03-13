@@ -15,10 +15,11 @@ struct EditRoutineView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @State var routine: Routine
+    let isNewRoutine: Bool
     
-    // MARK: - Body View
+    // MARK: - Workout Form
     
-    var body: some View {
+    var workoutForm: some View {
         Form {
             Section("Workout Name") {
                 TextField("Enter workout name", text: $routine.routineName)
@@ -30,27 +31,23 @@ struct EditRoutineView: View {
                     ForEach($routine.exercises) { exercise in
                         HStack {
                             VStack(alignment: .leading) {
-                                Text("Name")
-                                    .fontWeight(.semibold)
+                                InputLabel(text: "Name")
                                 TextField("Name", text: exercise.exerciseName)
                                     .textInputAutocapitalization(.words)
                             }
                             .layoutPriority(1)
+                            
                             VStack(alignment: .leading) {
-                                Text("Sets")
-                                    .fontWeight(.semibold)
-                                TextField("Sets", value: exercise.targetSets, format: .number)
-                                    .keyboardType(.numberPad)
+                                InputLabel(text: "Sets")
+                                NumberInputField(placeholder: "Sets", value: exercise.targetSets)
                             }
                             .frame(minWidth: 50)
+                            
                             VStack(alignment: .leading) {
-                                Text("Reps")
-                                    .fontWeight(.semibold)
+                                InputLabel(text: "Reps")
                                 HStack {
-                                    TextField("Min", value: exercise.targetRepRangeMin, format: .number)
-                                        .keyboardType(.numberPad)
-                                    TextField("Max", value: exercise.targetRepRangeMax, format: .number)
-                                        .keyboardType(.numberPad)
+                                    NumberInputField(placeholder: "Min", value: exercise.targetRepRangeMin)
+                                    NumberInputField(placeholder: "Max", value: exercise.targetRepRangeMax)
                                 }
                             }
                             .frame(minWidth: 110)
@@ -67,6 +64,9 @@ struct EditRoutineView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button("Save") {
+                    if isNewRoutine {
+                        modelContext.insert(routine)
+                    }
                     try? modelContext.save()
                     dismiss()
                 }
@@ -76,11 +76,36 @@ struct EditRoutineView: View {
         }
     }
     
+    // MARK: - Body View
+    
+    var body: some View {
+        workoutForm
+    }
+    
     // MARK: - Delete Exercises Method
     
     private func deleteExercises(at offsets: IndexSet) {
         for index in offsets {
             routine.exercises.remove(at: index)
         }
+    }
+}
+
+private struct InputLabel: View {
+    let text: String
+    
+    var body: some View {
+        Text(text)
+            .fontWeight(.semibold)
+    }
+}
+
+private struct NumberInputField: View {
+    let placeholder: String
+    let value: Binding<Int?>
+    
+    var body: some View {
+        TextField(placeholder, value: value, format: .number)
+            .keyboardType(.numberPad)
     }
 }

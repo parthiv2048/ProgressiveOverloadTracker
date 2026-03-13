@@ -29,7 +29,7 @@ struct RoutineListView: View {
     var routinesListView: some View {
         List {
             ForEach(routineList) { routine in
-                NavigationLink(destination: EditRoutineView(routine: routine)) {
+                NavigationLink(destination: EditRoutineView(routine: routine, isNewRoutine: false)) {
                     HStack {
                         Text(routine.routineName)
                             .fontWeight(.semibold)
@@ -57,7 +57,6 @@ struct RoutineListView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         let routine = Routine()
-                        modelContext.insert(routine)
                         newRoutine = routine
                     } label: {
                         Image(systemName: "plus")
@@ -65,7 +64,7 @@ struct RoutineListView: View {
                 }
             }
             .navigationDestination(item: $newRoutine) { routine in
-                EditRoutineView(routine: routine)
+                EditRoutineView(routine: routine, isNewRoutine: true)
             }
         }
     }
