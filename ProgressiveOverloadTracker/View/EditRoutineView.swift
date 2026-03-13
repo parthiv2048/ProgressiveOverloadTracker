@@ -91,6 +91,8 @@ struct EditRoutineView: View {
     }
 }
 
+// MARK: - Label for Input Textfields
+
 private struct InputLabel: View {
     let text: String
     
@@ -99,6 +101,8 @@ private struct InputLabel: View {
             .fontWeight(.semibold)
     }
 }
+
+// MARK: - Textfield for Numerical Inputs
 
 private struct NumberInputField: View {
     let placeholder: String

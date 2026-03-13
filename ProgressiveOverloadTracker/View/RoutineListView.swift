@@ -45,9 +45,9 @@ struct RoutineListView: View {
         }
     }
     
-    // MARK: - Body View
+    // MARK: - Navigation Stack with Buttons
     
-    var body: some View {
+    var navigationStackWithButtons: some View {
         NavigationStack {
             Group {
                 if routineList.isEmpty {
@@ -88,6 +88,12 @@ struct RoutineListView: View {
                 Text("Could not save workout routines. Please try again.")
             }
         }
+    }
+    
+    // MARK: - Body View
+    
+    var body: some View {
+        navigationStackWithButtons
     }
     
     // MARK: - Delete Routines Method
