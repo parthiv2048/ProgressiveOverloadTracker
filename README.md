@@ -11,8 +11,8 @@ This is a simple SwiftUI iOS App that allows users to track the weights, sets, a
 ## Features
 - [x] Routines List View shows a list of routines created along with number of exercises
 - [x] Add Routines View allows you to create and save a routine and add multiple exercises, each with name, target sets, and target reps
-- [ ] Add Routines View allows you to delete exercises from exercise list
-- [ ] Tap on routine to open Edit Routines View
+- [x] Add Routines View allows you to delete exercises from exercise list
+- [x] Tap on routine to open Edit Routines View
 - [ ] Run Routine View allows you to list down weight, sets, and reps for each exercise in exercise list
 - [ ] Workout History View shows you history of workouts
 - [ ] Exercise History View shows you weight and reps history for a specific exercise
